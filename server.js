@@ -8,6 +8,7 @@ if(!db.prepare('SELECT 1 FROM users WHERE admin=1').get()){
  db.prepare('INSERT INTO users(username,email,password,balance,admin) VALUES(?,?,?,?,1)').run('admin','admin@example.com',hash,100000);
 }
 app.use(express.static(path.join(__dirname,'public')));
+app.get('/',(req,res)=>res.sendFile(path.join(__dirname,'index.html')));
 function auth(req,res,next){if(!req.session.uid)return res.status(401).json({error:'Login required'});next()}
 app.post('/api/register',(req,res)=>{let {username,email,password}=req.body||{}; if(!username||!email||!password||password.length<6)return res.status(400).json({error:'Username, email and 6+ character password required'}); try{let h=bcrypt.hashSync(password,10);let r=db.prepare('INSERT INTO users(username,email,password) VALUES(?,?,?)').run(username,email,h);req.session.uid=r.lastInsertRowid;res.json({ok:true})}catch(e){res.status(400).json({error:'Username or email already exists'})}});
 app.post('/api/login',(req,res)=>{let u=db.prepare('SELECT * FROM users WHERE email=?').get(req.body.email);if(!u||!bcrypt.compareSync(req.body.password,u.password))return res.status(401).json({error:'Invalid login'});req.session.uid=u.id;res.json({ok:true})});
