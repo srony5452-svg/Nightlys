@@ -3,16 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DemoTrade — Crypto Exchange</title>
+<title>Nightlys TradeX</title>
 
 <style>
 *{box-sizing:border-box}
+
 body{
  margin:0;
  background:#0b0e11;
  color:#eaecef;
- font-family:Arial,Helvetica,sans-serif
+ font-family:Arial,Helvetica,sans-serif;
 }
+
 header{
  height:64px;
  background:#181a20;
@@ -23,46 +25,60 @@ header{
  padding:0 22px;
  position:sticky;
  top:0;
- z-index:10
+ z-index:10;
 }
+
 .logo{
  font-size:22px;
  font-weight:800;
- letter-spacing:.3px
+ letter-spacing:.3px;
 }
-.logo span{color:#f0b90b}
-.demo{
+
+.logo span{
+ color:#f0b90b;
+}
+
+.brand-sub{
  font-size:11px;
  color:#848e9c;
- margin-left:6px;
- font-weight:600
+ margin-left:7px;
+ font-weight:600;
 }
+
 .header-right{
  color:#848e9c;
- font-size:13px
+ font-size:13px;
 }
+
 .wrap{
  max-width:1180px;
  margin:auto;
- padding:22px
+ padding:22px;
 }
+
 .card{
  background:#181a20;
  border:1px solid #2b2f36;
  border-radius:8px;
  padding:20px;
- margin-bottom:18px
+ margin-bottom:18px;
 }
+
 .auth{
  max-width:440px;
- margin:60px auto
+ margin:60px auto;
 }
-h2,h3{margin-top:0}
+
+h2,h3{
+ margin-top:0;
+}
+
 .subtitle{
  color:#848e9c;
  font-size:13px;
- margin-bottom:20px
+ margin-bottom:20px;
 }
+
 input{
  width:100%;
  padding:13px;
@@ -71,9 +87,13 @@ input{
  border:1px solid #474d57;
  background:#0b0e11;
  color:#fff;
- outline:none
+ outline:none;
 }
-input:focus{border-color:#f0b90b}
+
+input:focus{
+ border-color:#f0b90b;
+}
+
 button{
  padding:12px 18px;
  border:0;
@@ -82,182 +102,280 @@ button{
  font-weight:700;
  color:#fff;
  background:#2b3139;
- margin:6px 4px 0 0
+ margin:6px 4px 0 0;
 }
-button:hover{opacity:.9}
-.signup{
- background:#f0b90b;
- color:#181a20
+
+button:hover{
+ opacity:.9;
 }
+
+.signup,
 .login{
  background:#f0b90b;
- color:#181a20
+ color:#181a20;
 }
+
 .logout{
  background:#2b3139;
- color:#eaecef
+ color:#eaecef;
 }
+
 .green{
- background:#0ecb81
+ background:#0ecb81;
 }
+
 .red{
- background:#f6465d
+ background:#f6465d;
 }
-.hidden{display:none}
+
+.hidden{
+ display:none;
+}
+
 .muted{
  color:#848e9c;
- font-size:13px
+ font-size:13px;
 }
+
 .balance-box{
  display:flex;
  justify-content:space-between;
  align-items:center;
  gap:20px;
- flex-wrap:wrap
+ flex-wrap:wrap;
 }
+
 .balance-title{
  color:#848e9c;
  font-size:13px;
- margin-bottom:7px
+ margin-bottom:7px;
 }
+
 .balance{
  font-size:34px;
- font-weight:800
+ font-weight:800;
 }
+
 .market{
- text-align:right
+ text-align:right;
 }
+
 .market-name{
  color:#848e9c;
- font-size:12px
+ font-size:12px;
 }
+
 .price{
  font-size:23px;
  font-weight:700;
- margin-top:5px
+ margin-top:5px;
 }
+
 .market-up{
  color:#0ecb81;
  font-size:13px;
- margin-top:4px
+ margin-top:4px;
 }
+
 .grid{
  display:grid;
  grid-template-columns:1.3fr .7fr;
- gap:18px
+ gap:18px;
 }
+
 .chart{
  height:300px;
  border:1px solid #2b2f36;
  border-radius:6px;
  background:
  linear-gradient(180deg,rgba(240,185,11,.04),transparent),
- repeating-linear-gradient(0deg,#181a20 0,#181a20 49px,#20242c 50px),
- repeating-linear-gradient(90deg,transparent 0,transparent 79px,#20242c 80px);
+ repeating-linear-gradient(
+  0deg,
+  #181a20 0,
+  #181a20 49px,
+  #20242c 50px
+ ),
+ repeating-linear-gradient(
+  90deg,
+  transparent 0,
+  transparent 79px,
+  #20242c 80px
+ );
  display:flex;
  align-items:center;
  justify-content:center;
  color:#5e6673;
- font-size:13px
+ font-size:13px;
 }
+
 .trade-title{
  display:flex;
  justify-content:space-between;
  align-items:center;
- margin-bottom:15px
+ margin-bottom:15px;
 }
+
 .tabs{
  display:flex;
  border-bottom:1px solid #2b2f36;
- margin-bottom:16px
+ margin-bottom:16px;
 }
+
 .tabs button{
  background:transparent;
  color:#848e9c;
  border-radius:0;
  margin:0;
  padding:12px 18px;
- border-bottom:2px solid transparent
+ border-bottom:2px solid transparent;
 }
+
 .tabs .active-buy{
  color:#0ecb81;
- border-bottom-color:#0ecb81
+ border-bottom-color:#0ecb81;
 }
+
 .tabs .active-sell{
  color:#f6465d;
- border-bottom-color:#f6465d
+ border-bottom-color:#f6465d;
 }
+
 .trade-btn{
  width:100%;
  font-size:15px;
- padding:14px
+ padding:14px;
 }
+
 .row{
  display:flex;
  justify-content:space-between;
  gap:10px;
  color:#848e9c;
  font-size:13px;
- margin:10px 0
+ margin:10px 0;
 }
-.row strong{color:#eaecef}
+
+.row strong{
+ color:#eaecef;
+}
+
 table{
  width:100%;
- border-collapse:collapse
+ border-collapse:collapse;
 }
+
 th,td{
  padding:12px 8px;
  border-bottom:1px solid #2b2f36;
  text-align:left;
- font-size:13px
+ font-size:13px;
 }
-th{color:#848e9c;font-weight:500}
-.buy-text{color:#0ecb81;font-weight:700}
-.sell-text{color:#f6465d;font-weight:700}
+
+th{
+ color:#848e9c;
+ font-weight:500;
+}
+
+.buy-text{
+ color:#0ecb81;
+ font-weight:700;
+}
+
+.sell-text{
+ color:#f6465d;
+ font-weight:700;
+}
+
 .admin{
  border-color:#5a4a12;
- background:linear-gradient(180deg,#191a18,#181a20)
+ background:linear-gradient(180deg,#191a18,#181a20);
 }
+
 .admin-title{
  display:flex;
  align-items:center;
- gap:8px
+ gap:8px;
 }
+
 .admin-badge{
  background:#f0b90b;
  color:#181a20;
  font-size:10px;
  padding:4px 7px;
  border-radius:4px;
- font-weight:800
+ font-weight:800;
 }
+
 .user-row{
  padding:14px 0;
- border-bottom:1px solid #2b2f36
+ border-bottom:1px solid #2b2f36;
 }
-.user-row:last-child{border-bottom:0}
+
+.user-row:last-child{
+ border-bottom:0;
+}
+
 .user-info{
  margin-bottom:8px;
- line-height:1.6
+ line-height:1.6;
 }
-.user-info b{color:#fff}
+
+.user-info b{
+ color:#fff;
+}
+
 .admin-input{
  max-width:220px;
  display:inline-block;
- margin-right:5px
+ margin-right:5px;
 }
+
 .set-btn{
  background:#f0b90b;
- color:#181a20
+ color:#181a20;
 }
+
+.footer{
+ text-align:center;
+ color:#5e6673;
+ font-size:12px;
+ padding:20px 0;
+}
+
 @media(max-width:800px){
- .grid{grid-template-columns:1fr}
- .market{text-align:left}
- .balance{font-size:28px}
- .chart{height:220px}
- header{padding:0 14px}
- .header-right{display:none}
- .wrap{padding:12px}
+
+ .grid{
+  grid-template-columns:1fr;
+ }
+
+ .market{
+  text-align:left;
+ }
+
+ .balance{
+  font-size:28px;
+ }
+
+ .chart{
+  height:220px;
+ }
+
+ header{
+  padding:0 14px;
+ }
+
+ .header-right{
+  display:none;
+ }
+
+ .wrap{
+  padding:12px;
+ }
+
+ .admin-input{
+  max-width:100%;
+ }
+
 }
 </style>
 </head>
@@ -265,168 +383,325 @@ th{color:#848e9c;font-weight:500}
 <body>
 
 <header>
+
  <div class="logo">
-   <span>◆</span> DemoTrade
-   <span class="demo">SIMULATION</span>
+  <span>◆</span> Nightlys TradeX
+  <span class="brand-sub">CRYPTO EXCHANGE</span>
  </div>
- <div class="header-right">Virtual money only • Demo Exchange</div>
+
+ <div class="header-right">
+  Secure Trading Platform
+ </div>
+
 </header>
+
 
 <div class="wrap">
 
+
 <!-- LOGIN / SIGN UP -->
+
 <div id="auth" class="card auth">
- <h2>Demo Exchange</h2>
+
+ <h2>Welcome to Nightlys TradeX</h2>
+
  <div class="subtitle">
-   Practice crypto trading with virtual money.
+  Sign in or create your account to start trading.
  </div>
 
- <input id="email" placeholder="Email">
- <input id="password" type="password" placeholder="Password">
- <input id="username" placeholder="Username (for Sign Up)">
+ <input
+  id="email"
+  placeholder="Email"
+  autocomplete="email"
+ >
 
- <button class="signup" onclick="signup()">Create Account</button>
- <button class="login" onclick="login()">Login</button>
+ <input
+  id="password"
+  type="password"
+  placeholder="Password"
+  autocomplete="current-password"
+ >
+
+ <input
+  id="username"
+  placeholder="Username (for Sign Up)"
+ >
+
+ <button
+  class="signup"
+  onclick="signup()"
+ >
+  Create Account
+ </button>
+
+ <button
+  class="login"
+  onclick="login()"
+ >
+  Login
+ </button>
 
  <p id="msg" class="muted"></p>
+
 </div>
 
 
 <!-- MAIN APP -->
+
 <div id="app" class="hidden">
 
- <!-- BALANCE -->
- <div class="card">
-  <div class="balance-box">
 
-   <div>
-    <div class="balance-title">ESTIMATED DEMO BALANCE</div>
-    <div class="balance">$<span id="bal"></span></div>
-    <div class="muted">
-      Welcome back, <strong id="user"></strong>
-    </div>
+<!-- BALANCE -->
+
+<div class="card">
+
+ <div class="balance-box">
+
+  <div>
+
+   <div class="balance-title">
+    AVAILABLE BALANCE
    </div>
 
-   <div class="market">
-    <div class="market-name">BTC/USDT</div>
-    <div class="price">$<span id="marketPrice">67,250.00</span></div>
-    <div class="market-up">▲ +2.18% Today</div>
+   <div class="balance">
+    $<span id="bal"></span>
+   </div>
+
+   <div class="muted">
+    Welcome back, <strong id="user"></strong>
    </div>
 
   </div>
- </div>
 
 
- <div class="grid">
+  <div class="market">
 
-  <!-- MARKET CHART -->
-  <div class="card">
-   <div class="trade-title">
-    <div>
-     <h3>BTC/USDT</h3>
-     <div class="muted">Bitcoin / USDT</div>
-    </div>
+   <div class="market-name">
+    BTC/USDT
    </div>
 
-   <div class="chart">
-     DEMO MARKET CHART
+   <div class="price">
+    $<span id="marketPrice">67,250.00</span>
    </div>
 
-   <div class="row">
-     <span>24h High</span>
-     <strong>$68,920.00</strong>
-   </div>
-
-   <div class="row">
-     <span>24h Low</span>
-     <strong>$65,480.00</strong>
-   </div>
-  </div>
-
-
-  <!-- TRADE PANEL -->
-  <div class="card">
-
-   <div class="trade-title">
-    <h3>Trade</h3>
-    <span class="muted">Spot</span>
-   </div>
-
-   <div class="tabs">
-    <button id="buyTab" class="active-buy" onclick="selectSide('buy')">
-      Buy
-    </button>
-    <button id="sellTab" onclick="selectSide('sell')">
-      Sell
-    </button>
-   </div>
-
-   <div class="muted">Amount (USDT)</div>
-
-   <input id="amt" type="number" value="500" min="1">
-
-   <div class="row">
-    <span>Price</span>
-    <strong>$<span id="tradePrice">67250</span></strong>
-   </div>
-
-   <div class="row">
-    <span>Available</span>
-    <strong>$<span id="available"></span></strong>
-   </div>
-
-   <button id="tradeBtn" class="green trade-btn" onclick="trade('buy')">
-     Buy BTC
-   </button>
-
-   <div class="muted" style="margin-top:12px">
-     This is a simulation. No real funds are used.
+   <div class="market-up">
+    ▲ +2.18% Today
    </div>
 
   </div>
 
  </div>
-
-
- <!-- TRADE HISTORY -->
- <div class="card">
-  <h3>Order History</h3>
-
-  <table>
-   <thead>
-    <tr>
-     <th>Side</th>
-     <th>Amount</th>
-     <th>Price</th>
-     <th>Time</th>
-    </tr>
-   </thead>
-
-   <tbody id="hist"></tbody>
-  </table>
- </div>
-
-
- <!-- ADMIN -->
- <div id="admin" class="card admin hidden">
-
-  <div class="admin-title">
-   <h3>Admin Balance Control</h3>
-   <span class="admin-badge">ADMIN</span>
-  </div>
-
-  <div class="muted" style="margin-bottom:15px">
-    Set demo balances for registered users.
-  </div>
-
-  <div id="users"></div>
-
- </div>
-
-
- <button class="logout" onclick="logout()">Logout</button>
 
 </div>
+
+
+<div class="grid">
+
+
+<!-- MARKET -->
+
+<div class="card">
+
+ <div class="trade-title">
+
+  <div>
+
+   <h3>BTC/USDT</h3>
+
+   <div class="muted">
+    Bitcoin / USDT
+   </div>
+
+  </div>
+
+ </div>
+
+
+ <div class="chart">
+  BTC/USDT MARKET
+ </div>
+
+
+ <div class="row">
+  <span>24h High</span>
+  <strong>$68,920.00</strong>
+ </div>
+
+
+ <div class="row">
+  <span>24h Low</span>
+  <strong>$65,480.00</strong>
+ </div>
+
+</div>
+
+
+<!-- TRADE -->
+
+<div class="card">
+
+ <div class="trade-title">
+
+  <h3>Trade</h3>
+
+  <span class="muted">
+   Spot
+  </span>
+
+ </div>
+
+
+ <div class="tabs">
+
+  <button
+   id="buyTab"
+   class="active-buy"
+   onclick="selectSide('buy')"
+  >
+   Buy
+  </button>
+
+  <button
+   id="sellTab"
+   onclick="selectSide('sell')"
+  >
+   Sell
+  </button>
+
+ </div>
+
+
+ <div class="muted">
+  Amount (USDT)
+ </div>
+
+
+ <input
+  id="amt"
+  type="number"
+  value="500"
+  min="1"
+ >
+
+
+ <div class="row">
+
+  <span>Price</span>
+
+  <strong>
+   $<span id="tradePrice">67,250</span>
+  </strong>
+
+ </div>
+
+
+ <div class="row">
+
+  <span>Available</span>
+
+  <strong>
+   $<span id="available"></span>
+  </strong>
+
+ </div>
+
+
+ <button
+  id="tradeBtn"
+  class="green trade-btn"
+  onclick="trade('buy')"
+ >
+  Buy BTC
+ </button>
+
+
+ <div
+  class="muted"
+  style="margin-top:12px"
+ >
+  Trading balance is used for account activity.
+ </div>
+
+</div>
+
+</div>
+
+
+<!-- ORDER HISTORY -->
+
+<div class="card">
+
+ <h3>Order History</h3>
+
+ <table>
+
+  <thead>
+
+   <tr>
+    <th>Side</th>
+    <th>Amount</th>
+    <th>Price</th>
+    <th>Time</th>
+   </tr>
+
+  </thead>
+
+
+  <tbody id="hist"></tbody>
+
+ </table>
+
+</div>
+
+
+<!-- ADMIN -->
+
+<div
+ id="admin"
+ class="card admin hidden"
+>
+
+ <div class="admin-title">
+
+  <h3>
+   Balance Control
+  </h3>
+
+  <span class="admin-badge">
+   ADMIN
+  </span>
+
+ </div>
+
+
+ <div
+  class="muted"
+  style="margin-bottom:15px"
+ >
+  Manage account balances.
+ </div>
+
+
+ <div id="users"></div>
+
+</div>
+
+
+<button
+ class="logout"
+ onclick="logout()"
+>
+ Logout
+</button>
+
+
+<div class="footer">
+ © Nightlys TradeX • Trading Platform
+</div>
+
+
+</div>
+
 </div>
 
 
@@ -440,14 +715,21 @@ const $=x=>document.getElementById(x);
 
 async function api(u,o={}){
 
- let r=await fetch(u,{
-   headers:{'Content-Type':'application/json'},
+ let r=await fetch(
+  u,
+  {
+   headers:{
+    'Content-Type':'application/json'
+   },
    ...o
- });
+  }
+ );
 
  let j=await r.json();
 
- if(!r.ok)throw Error(j.error||'Error');
+ if(!r.ok){
+  throw Error(j.error||'Error');
+ }
 
  return j;
 }
@@ -457,14 +739,17 @@ async function signup(){
 
  try{
 
-  await api('/api/register',{
-   method:'POST',
-   body:JSON.stringify({
-    username:$('username').value,
-    email:$('email').value,
-    password:$('password').value
-   })
-  });
+  await api(
+   '/api/register',
+   {
+    method:'POST',
+    body:JSON.stringify({
+     username:$('username').value,
+     email:$('email').value,
+     password:$('password').value
+    })
+   }
+  );
 
   load();
 
@@ -480,13 +765,16 @@ async function login(){
 
  try{
 
-  await api('/api/login',{
-   method:'POST',
-   body:JSON.stringify({
-    email:$('email').value,
-    password:$('password').value
-   })
-  });
+  await api(
+   '/api/login',
+   {
+    method:'POST',
+    body:JSON.stringify({
+     email:$('email').value,
+     password:$('password').value
+    })
+   }
+  );
 
   load();
 
@@ -504,79 +792,130 @@ async function load(){
 
   let j=await api('/api/me');
 
+
   $('auth').classList.add('hidden');
+
   $('app').classList.remove('hidden');
 
-  $('user').textContent=j.user.username;
+
+  $('user').textContent=
+   j.user.username;
+
 
   $('bal').textContent=
-   j.user.balance.toLocaleString(undefined,{
-    minimumFractionDigits:2
-   });
+   j.user.balance.toLocaleString(
+    undefined,
+    {
+     minimumFractionDigits:2
+    }
+   );
+
 
   $('available').textContent=
-   j.user.balance.toLocaleString(undefined,{
-    minimumFractionDigits:2
-   });
+   j.user.balance.toLocaleString(
+    undefined,
+    {
+     minimumFractionDigits:2
+    }
+   );
 
-  $('hist').innerHTML=j.trades.map(t=>`
 
-   <tr>
+  $('hist').innerHTML=
+   j.trades.map(
+    t=>`
 
-    <td class="${t.side==='buy'?'buy-text':'sell-text'}">
+    <tr>
+
+     <td class="${
+      t.side==='buy'
+      ?'buy-text'
+      :'sell-text'
+     }">
+
       ${t.side.toUpperCase()}
-    </td>
 
-    <td>$${t.amount}</td>
+     </td>
 
-    <td>$${t.price}</td>
+     <td>
+      $${t.amount}
+     </td>
 
-    <td>${new Date(t.created_at).toLocaleString()}</td>
+     <td>
+      $${t.price}
+     </td>
 
-   </tr>
+     <td>
+      ${new Date(
+       t.created_at
+      ).toLocaleString()}
+     </td>
 
-  `).join('');
+    </tr>
+
+   `
+   ).join('');
 
 
   if(j.user.admin){
 
-   $('admin').classList.remove('hidden');
+   $('admin')
+    .classList
+    .remove('hidden');
 
-   let us=await api('/api/admin/users');
 
-   $('users').innerHTML=us.map(u=>`
+   let us=
+    await api('/api/admin/users');
 
-    <div class="user-row">
 
-     <div class="user-info">
+   $('users').innerHTML=
+    us.map(
+     u=>`
 
-      <b>${u.username}</b>
-      <br>
+      <div class="user-row">
 
-      <span class="muted">${u.email}</span>
-      <br>
+       <div class="user-info">
 
-      Current Balance:
-      <strong>$${Number(u.balance).toLocaleString()}</strong>
+        <b>
+         ${u.username}
+        </b>
 
-     </div>
+        <br>
 
-     <input
-       class="admin-input"
-       id="b${u.id}"
-       type="number"
-       placeholder="New balance"
-     >
+        <span class="muted">
+         ${u.email}
+        </span>
 
-     <button
-       class="set-btn"
-       onclick="setb(${u.id})">
-       Set Balance
-     </button>
+        <br>
 
-    </div>
+        Current Balance:
+        <strong>
+         $${Number(
+          u.balance
+         ).toLocaleString()}
+        </strong>
 
-   `).join('');
+       </div>
+
+
+       <input
+        class="admin-input"
+        id="b${u.id}"
+        type="number"
+        placeholder="New balance"
+       >
+
+
+       <button
+        class="set-btn"
+        onclick="setb(${u.id})"
+       >
+        Set Balance
+       </button>
+
+      </div>
+
+     `
+    ).join('');
 
   }
 
@@ -589,21 +928,34 @@ function selectSide(side){
 
  selectedSide=side;
 
+
  if(side==='buy'){
 
-  $('buyTab').className='active-buy';
-  $('sellTab').className='';
+  $('buyTab')
+   .className='active-buy';
 
-  $('tradeBtn').className='green trade-btn';
-  $('tradeBtn').textContent='Buy BTC';
+  $('sellTab')
+   .className='';
+
+  $('tradeBtn')
+   .className='green trade-btn';
+
+  $('tradeBtn')
+   .textContent='Buy BTC';
 
  }else{
 
-  $('sellTab').className='active-sell';
-  $('buyTab').className='';
+  $('sellTab')
+   .className='active-sell';
 
-  $('tradeBtn').className='red trade-btn';
-  $('tradeBtn').textContent='Sell BTC';
+  $('buyTab')
+   .className='';
+
+  $('tradeBtn')
+   .className='red trade-btn';
+
+  $('tradeBtn')
+   .textContent='Sell BTC';
 
  }
 
@@ -614,14 +966,19 @@ async function trade(side){
 
  try{
 
-  await api('/api/trade',{
-   method:'POST',
-   body:JSON.stringify({
-    side:side,
-    amount:Number($('amt').value),
-    price:price
-   })
-  });
+  await api(
+   '/api/trade',
+   {
+    method:'POST',
+    body:JSON.stringify({
+     side:side,
+     amount:Number(
+      $('amt').value
+     ),
+     price:price
+    })
+   }
+  );
 
   load();
 
@@ -630,7 +987,6 @@ async function trade(side){
   alert(e.message);
 
  }
-
 }
 
 
@@ -638,13 +994,18 @@ async function setb(id){
 
  try{
 
-  await api('/api/admin/balance',{
-   method:'POST',
-   body:JSON.stringify({
-    userId:id,
-    balance:Number($('b'+id).value)
-   })
-  });
+  await api(
+   '/api/admin/balance',
+   {
+    method:'POST',
+    body:JSON.stringify({
+     userId:id,
+     balance:Number(
+      $('b'+id).value
+     )
+    })
+   }
+  );
 
   load();
 
@@ -659,17 +1020,24 @@ async function setb(id){
 
 async function logout(){
 
- await api('/api/logout',{
-  method:'POST'
- });
+ await api(
+  '/api/logout',
+  {
+   method:'POST'
+  }
+ );
 
  location.reload();
 
 }
 
 
-$('tradePrice').textContent=price.toLocaleString();
-$('marketPrice').textContent=price.toLocaleString();
+$('tradePrice').textContent=
+ price.toLocaleString();
+
+$('marketPrice').textContent=
+ price.toLocaleString();
+
 
 load();
 
