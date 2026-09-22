@@ -1,17 +1,679 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DemoTrade</title><style>
-body{margin:0;background:#0b1020;color:#eef2ff;font-family:Arial}header{padding:18px 22px;background:#121a2d;display:flex;justify-content:space-between}.wrap{max-width:1000px;margin:auto;padding:20px}.card{background:#121a2d;border:1px solid #2a3550;border-radius:12px;padding:18px;margin-bottom:18px}input,button{padding:11px;border-radius:8px;border:1px solid #394766;margin:5px 0;background:#0d1426;color:white}input{width:95%}button{cursor:pointer;background:#3558d4}.danger{background:#a43c4c}.green{background:#168a62}.muted{color:#9aa8c7;font-size:13px}.balance{font-size:30px;font-weight:bold}.hidden{display:none}table{width:100%;border-collapse:collapse}td,th{padding:9px;border-bottom:1px solid #2a3550;text-align:left;font-size:13px}
-</style></head><body><header><b>DemoTrade <small>SIMULATION</small></b><span>Virtual money only</span></header><div class="wrap">
-<div id="auth" class="card"><h2>Demo Account</h2><input id="email" placeholder="Email"><input id="password" type="password" placeholder="Password"><input id="username" placeholder="Username (for Sign Up)"><button onclick="signup()">Sign Up</button><button onclick="login()">Login</button><p id="msg" class="muted"></p></div>
-<div id="app" class="hidden"><div class="card"><h2>Welcome, <span id="user"></span></h2><div class="muted">DEMO BALANCE</div><div class="balance">$<span id="bal"></span></div><input id="amt" type="number" value="500"><button class="green" onclick="trade('buy')">BUY</button><button class="danger" onclick="trade('sell')">SELL</button><button onclick="logout()">Logout</button></div>
-<div class="card"><h3>Trade History</h3><table><thead><tr><th>Side</th><th>Amount</th><th>Price</th><th>Time</th></tr></thead><tbody id="hist"></tbody></table></div>
-<div id="admin" class="card hidden"><h3>Admin — Demo Balance Control</h3><div id="users"></div></div></div></div>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DemoTrade — Crypto Exchange</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#0b0e11;
+ color:#eaecef;
+ font-family:Arial,Helvetica,sans-serif
+}
+header{
+ height:64px;
+ background:#181a20;
+ border-bottom:1px solid #2b2f36;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 22px;
+ position:sticky;
+ top:0;
+ z-index:10
+}
+.logo{
+ font-size:22px;
+ font-weight:800;
+ letter-spacing:.3px
+}
+.logo span{color:#f0b90b}
+.demo{
+ font-size:11px;
+ color:#848e9c;
+ margin-left:6px;
+ font-weight:600
+}
+.header-right{
+ color:#848e9c;
+ font-size:13px
+}
+.wrap{
+ max-width:1180px;
+ margin:auto;
+ padding:22px
+}
+.card{
+ background:#181a20;
+ border:1px solid #2b2f36;
+ border-radius:8px;
+ padding:20px;
+ margin-bottom:18px
+}
+.auth{
+ max-width:440px;
+ margin:60px auto
+}
+h2,h3{margin-top:0}
+.subtitle{
+ color:#848e9c;
+ font-size:13px;
+ margin-bottom:20px
+}
+input{
+ width:100%;
+ padding:13px;
+ margin:6px 0;
+ border-radius:5px;
+ border:1px solid #474d57;
+ background:#0b0e11;
+ color:#fff;
+ outline:none
+}
+input:focus{border-color:#f0b90b}
+button{
+ padding:12px 18px;
+ border:0;
+ border-radius:5px;
+ cursor:pointer;
+ font-weight:700;
+ color:#fff;
+ background:#2b3139;
+ margin:6px 4px 0 0
+}
+button:hover{opacity:.9}
+.signup{
+ background:#f0b90b;
+ color:#181a20
+}
+.login{
+ background:#f0b90b;
+ color:#181a20
+}
+.logout{
+ background:#2b3139;
+ color:#eaecef
+}
+.green{
+ background:#0ecb81
+}
+.red{
+ background:#f6465d
+}
+.hidden{display:none}
+.muted{
+ color:#848e9c;
+ font-size:13px
+}
+.balance-box{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:20px;
+ flex-wrap:wrap
+}
+.balance-title{
+ color:#848e9c;
+ font-size:13px;
+ margin-bottom:7px
+}
+.balance{
+ font-size:34px;
+ font-weight:800
+}
+.market{
+ text-align:right
+}
+.market-name{
+ color:#848e9c;
+ font-size:12px
+}
+.price{
+ font-size:23px;
+ font-weight:700;
+ margin-top:5px
+}
+.market-up{
+ color:#0ecb81;
+ font-size:13px;
+ margin-top:4px
+}
+.grid{
+ display:grid;
+ grid-template-columns:1.3fr .7fr;
+ gap:18px
+}
+.chart{
+ height:300px;
+ border:1px solid #2b2f36;
+ border-radius:6px;
+ background:
+ linear-gradient(180deg,rgba(240,185,11,.04),transparent),
+ repeating-linear-gradient(0deg,#181a20 0,#181a20 49px,#20242c 50px),
+ repeating-linear-gradient(90deg,transparent 0,transparent 79px,#20242c 80px);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ color:#5e6673;
+ font-size:13px
+}
+.trade-title{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:15px
+}
+.tabs{
+ display:flex;
+ border-bottom:1px solid #2b2f36;
+ margin-bottom:16px
+}
+.tabs button{
+ background:transparent;
+ color:#848e9c;
+ border-radius:0;
+ margin:0;
+ padding:12px 18px;
+ border-bottom:2px solid transparent
+}
+.tabs .active-buy{
+ color:#0ecb81;
+ border-bottom-color:#0ecb81
+}
+.tabs .active-sell{
+ color:#f6465d;
+ border-bottom-color:#f6465d
+}
+.trade-btn{
+ width:100%;
+ font-size:15px;
+ padding:14px
+}
+.row{
+ display:flex;
+ justify-content:space-between;
+ gap:10px;
+ color:#848e9c;
+ font-size:13px;
+ margin:10px 0
+}
+.row strong{color:#eaecef}
+table{
+ width:100%;
+ border-collapse:collapse
+}
+th,td{
+ padding:12px 8px;
+ border-bottom:1px solid #2b2f36;
+ text-align:left;
+ font-size:13px
+}
+th{color:#848e9c;font-weight:500}
+.buy-text{color:#0ecb81;font-weight:700}
+.sell-text{color:#f6465d;font-weight:700}
+.admin{
+ border-color:#5a4a12;
+ background:linear-gradient(180deg,#191a18,#181a20)
+}
+.admin-title{
+ display:flex;
+ align-items:center;
+ gap:8px
+}
+.admin-badge{
+ background:#f0b90b;
+ color:#181a20;
+ font-size:10px;
+ padding:4px 7px;
+ border-radius:4px;
+ font-weight:800
+}
+.user-row{
+ padding:14px 0;
+ border-bottom:1px solid #2b2f36
+}
+.user-row:last-child{border-bottom:0}
+.user-info{
+ margin-bottom:8px;
+ line-height:1.6
+}
+.user-info b{color:#fff}
+.admin-input{
+ max-width:220px;
+ display:inline-block;
+ margin-right:5px
+}
+.set-btn{
+ background:#f0b90b;
+ color:#181a20
+}
+@media(max-width:800px){
+ .grid{grid-template-columns:1fr}
+ .market{text-align:left}
+ .balance{font-size:28px}
+ .chart{height:220px}
+ header{padding:0 14px}
+ .header-right{display:none}
+ .wrap{padding:12px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">
+   <span>◆</span> DemoTrade
+   <span class="demo">SIMULATION</span>
+ </div>
+ <div class="header-right">Virtual money only • Demo Exchange</div>
+</header>
+
+<div class="wrap">
+
+<!-- LOGIN / SIGN UP -->
+<div id="auth" class="card auth">
+ <h2>Demo Exchange</h2>
+ <div class="subtitle">
+   Practice crypto trading with virtual money.
+ </div>
+
+ <input id="email" placeholder="Email">
+ <input id="password" type="password" placeholder="Password">
+ <input id="username" placeholder="Username (for Sign Up)">
+
+ <button class="signup" onclick="signup()">Create Account</button>
+ <button class="login" onclick="login()">Login</button>
+
+ <p id="msg" class="muted"></p>
+</div>
+
+
+<!-- MAIN APP -->
+<div id="app" class="hidden">
+
+ <!-- BALANCE -->
+ <div class="card">
+  <div class="balance-box">
+
+   <div>
+    <div class="balance-title">ESTIMATED DEMO BALANCE</div>
+    <div class="balance">$<span id="bal"></span></div>
+    <div class="muted">
+      Welcome back, <strong id="user"></strong>
+    </div>
+   </div>
+
+   <div class="market">
+    <div class="market-name">BTC/USDT</div>
+    <div class="price">$<span id="marketPrice">67,250.00</span></div>
+    <div class="market-up">▲ +2.18% Today</div>
+   </div>
+
+  </div>
+ </div>
+
+
+ <div class="grid">
+
+  <!-- MARKET CHART -->
+  <div class="card">
+   <div class="trade-title">
+    <div>
+     <h3>BTC/USDT</h3>
+     <div class="muted">Bitcoin / USDT</div>
+    </div>
+   </div>
+
+   <div class="chart">
+     DEMO MARKET CHART
+   </div>
+
+   <div class="row">
+     <span>24h High</span>
+     <strong>$68,920.00</strong>
+   </div>
+
+   <div class="row">
+     <span>24h Low</span>
+     <strong>$65,480.00</strong>
+   </div>
+  </div>
+
+
+  <!-- TRADE PANEL -->
+  <div class="card">
+
+   <div class="trade-title">
+    <h3>Trade</h3>
+    <span class="muted">Spot</span>
+   </div>
+
+   <div class="tabs">
+    <button id="buyTab" class="active-buy" onclick="selectSide('buy')">
+      Buy
+    </button>
+    <button id="sellTab" onclick="selectSide('sell')">
+      Sell
+    </button>
+   </div>
+
+   <div class="muted">Amount (USDT)</div>
+
+   <input id="amt" type="number" value="500" min="1">
+
+   <div class="row">
+    <span>Price</span>
+    <strong>$<span id="tradePrice">67250</span></strong>
+   </div>
+
+   <div class="row">
+    <span>Available</span>
+    <strong>$<span id="available"></span></strong>
+   </div>
+
+   <button id="tradeBtn" class="green trade-btn" onclick="trade('buy')">
+     Buy BTC
+   </button>
+
+   <div class="muted" style="margin-top:12px">
+     This is a simulation. No real funds are used.
+   </div>
+
+  </div>
+
+ </div>
+
+
+ <!-- TRADE HISTORY -->
+ <div class="card">
+  <h3>Order History</h3>
+
+  <table>
+   <thead>
+    <tr>
+     <th>Side</th>
+     <th>Amount</th>
+     <th>Price</th>
+     <th>Time</th>
+    </tr>
+   </thead>
+
+   <tbody id="hist"></tbody>
+  </table>
+ </div>
+
+
+ <!-- ADMIN -->
+ <div id="admin" class="card admin hidden">
+
+  <div class="admin-title">
+   <h3>Admin Balance Control</h3>
+   <span class="admin-badge">ADMIN</span>
+  </div>
+
+  <div class="muted" style="margin-bottom:15px">
+    Set demo balances for registered users.
+  </div>
+
+  <div id="users"></div>
+
+ </div>
+
+
+ <button class="logout" onclick="logout()">Logout</button>
+
+</div>
+</div>
+
+
 <script>
-let price=67250;const $=x=>document.getElementById(x);
-async function api(u,o={}){let r=await fetch(u,{headers:{'Content-Type':'application/json'},...o});let j=await r.json();if(!r.ok)throw Error(j.error||'Error');return j}
-async function signup(){try{await api('/api/register',{method:'POST',body:JSON.stringify({username:$('username').value,email:$('email').value,password:$('password').value})});load()}catch(e){$('msg').textContent=e.message}}
-async function login(){try{await api('/api/login',{method:'POST',body:JSON.stringify({email:$('email').value,password:$('password').value})});load()}catch(e){$('msg').textContent=e.message}}
-async function load(){try{let j=await api('/api/me');$('auth').classList.add('hidden');$('app').classList.remove('hidden');$('user').textContent=j.user.username;$('bal').textContent=j.user.balance.toLocaleString(undefined,{minimumFractionDigits:2});$('hist').innerHTML=j.trades.map(t=>`<tr><td>${t.side.toUpperCase()}</td><td>$${t.amount}</td><td>$${t.price}</td><td>${new Date(t.created_at).toLocaleString()}</td></tr>`).join('');if(j.user.admin){$('admin').classList.remove('hidden');let us=await api('/api/admin/users');$('users').innerHTML=us.map(u=>`<p>${u.username} — ${u.email} — $${u.balance} <input id="b${u.id}" placeholder="new balance"><button onclick="setb(${u.id})">Set</button></p>`).join('')}}catch(e){}}
-async function trade(side){try{await api('/api/trade',{method:'POST',body:JSON.stringify({side,amount:Number($('amt').value),price})});load()}catch(e){alert(e.message)}}
-async function setb(id){try{await api('/api/admin/balance',{method:'POST',body:JSON.stringify({userId:id,balance:Number($('b'+id).value)})});load()}catch(e){alert(e.message)}}
-async function logout(){await api('/api/logout',{method:'POST'});location.reload()} load();
-</script></body></html>
+
+let price=67250;
+let selectedSide='buy';
+
+const $=x=>document.getElementById(x);
+
+
+async function api(u,o={}){
+
+ let r=await fetch(u,{
+   headers:{'Content-Type':'application/json'},
+   ...o
+ });
+
+ let j=await r.json();
+
+ if(!r.ok)throw Error(j.error||'Error');
+
+ return j;
+}
+
+
+async function signup(){
+
+ try{
+
+  await api('/api/register',{
+   method:'POST',
+   body:JSON.stringify({
+    username:$('username').value,
+    email:$('email').value,
+    password:$('password').value
+   })
+  });
+
+  load();
+
+ }catch(e){
+
+  $('msg').textContent=e.message;
+
+ }
+}
+
+
+async function login(){
+
+ try{
+
+  await api('/api/login',{
+   method:'POST',
+   body:JSON.stringify({
+    email:$('email').value,
+    password:$('password').value
+   })
+  });
+
+  load();
+
+ }catch(e){
+
+  $('msg').textContent=e.message;
+
+ }
+}
+
+
+async function load(){
+
+ try{
+
+  let j=await api('/api/me');
+
+  $('auth').classList.add('hidden');
+  $('app').classList.remove('hidden');
+
+  $('user').textContent=j.user.username;
+
+  $('bal').textContent=
+   j.user.balance.toLocaleString(undefined,{
+    minimumFractionDigits:2
+   });
+
+  $('available').textContent=
+   j.user.balance.toLocaleString(undefined,{
+    minimumFractionDigits:2
+   });
+
+  $('hist').innerHTML=j.trades.map(t=>`
+
+   <tr>
+
+    <td class="${t.side==='buy'?'buy-text':'sell-text'}">
+      ${t.side.toUpperCase()}
+    </td>
+
+    <td>$${t.amount}</td>
+
+    <td>$${t.price}</td>
+
+    <td>${new Date(t.created_at).toLocaleString()}</td>
+
+   </tr>
+
+  `).join('');
+
+
+  if(j.user.admin){
+
+   $('admin').classList.remove('hidden');
+
+   let us=await api('/api/admin/users');
+
+   $('users').innerHTML=us.map(u=>`
+
+    <div class="user-row">
+
+     <div class="user-info">
+
+      <b>${u.username}</b>
+      <br>
+
+      <span class="muted">${u.email}</span>
+      <br>
+
+      Current Balance:
+      <strong>$${Number(u.balance).toLocaleString()}</strong>
+
+     </div>
+
+     <input
+       class="admin-input"
+       id="b${u.id}"
+       type="number"
+       placeholder="New balance"
+     >
+
+     <button
+       class="set-btn"
+       onclick="setb(${u.id})">
+       Set Balance
+     </button>
+
+    </div>
+
+   `).join('');
+
+  }
+
+ }catch(e){}
+
+}
+
+
+function selectSide(side){
+
+ selectedSide=side;
+
+ if(side==='buy'){
+
+  $('buyTab').className='active-buy';
+  $('sellTab').className='';
+
+  $('tradeBtn').className='green trade-btn';
+  $('tradeBtn').textContent='Buy BTC';
+
+ }else{
+
+  $('sellTab').className='active-sell';
+  $('buyTab').className='';
+
+  $('tradeBtn').className='red trade-btn';
+  $('tradeBtn').textContent='Sell BTC';
+
+ }
+
+}
+
+
+async function trade(side){
+
+ try{
+
+  await api('/api/trade',{
+   method:'POST',
+   body:JSON.stringify({
+    side:side,
+    amount:Number($('amt').value),
+    price:price
+   })
+  });
+
+  load();
+
+ }catch(e){
+
+  alert(e.message);
+
+ }
+
+}
+
+
+async function setb(id){
+
+ try{
+
+  await api('/api/admin/balance',{
+   method:'POST',
+   body:JSON.stringify({
+    userId:id,
+    balance:Number($('b'+id).value)
+   })
+  });
+
+  load();
+
+ }catch(e){
+
+  alert(e.message);
+
+ }
+
+}
+
+
+async function logout(){
+
+ await api('/api/logout',{
+  method:'POST'
+ });
+
+ location.reload();
+
+}
+
+
+$('tradePrice').textContent=price.toLocaleString();
+$('marketPrice').textContent=price.toLocaleString();
+
+load();
+
+</script>
+
+</body>
+</html>
